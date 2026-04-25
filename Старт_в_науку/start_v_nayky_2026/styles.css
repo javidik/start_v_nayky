@@ -1,0 +1,839 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #ffffff;
+    overflow-x: hidden;
+}
+
+header {
+    background: linear-gradient(135deg, #1a2639 0%, #1e5799 100%);
+    color: white;
+    text-align: center;
+    padding: 3rem 1rem 2rem;
+    overflow: hidden;
+    position: relative;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    line-height: 1.2;
+    padding: 0 1rem;
+    animation: slideDown 1s ease-out;
+}
+
+main {
+    max-width: 100%;
+    margin: 2rem auto;
+    padding: 0 2rem;
+    width: 100%;
+}
+
+/* Анимации */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-50px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(50px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideLeft {
+    from { opacity: 0; transform: translateX(-50px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideRight {
+    from { opacity: 0; transform: translateX(50px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes glow {
+    0%, 100% { box-shadow: 0 0 5px rgba(52, 152, 219, 0.3); }
+    50% { box-shadow: 0 0 20px rgba(52, 152, 219, 0.6); }
+}
+
+/* Классы для анимации при скролле */
+.animate-on-scroll {
+    opacity: 0;
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-on-scroll.fade-in {
+    transform: none;
+}
+
+.animate-on-scroll.slide-up {
+    transform: translateY(50px);
+}
+
+.animate-on-scroll.slide-down {
+    transform: translateY(-50px);
+}
+
+.animate-on-scroll.slide-left {
+    transform: translateX(-50px);
+}
+
+.animate-on-scroll.slide-right {
+    transform: translateX(50px);
+}
+
+.animate-on-scroll.visible {
+    opacity: 1;
+    transform: translate(0, 0);
+}
+
+/* Задержка анимации для каскадного эффекта */
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.3s; }
+.delay-4 { transition-delay: 0.4s; }
+.delay-5 { transition-delay: 0.5s; }
+.delay-6 { transition-delay: 0.6s; }
+.delay-7 { transition-delay: 0.7s; }
+.delay-8 { transition-delay: 0.8s; }
+
+.fade-in {
+    animation: fadeIn 1s ease-out forwards;
+}
+
+.scroll-animate {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.scroll-animate.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.animate-title {
+    position: relative;
+    display: inline-block;
+}
+
+.animate-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #3498db, #2c3e50);
+    transition: width 0.6s ease-out;
+}
+
+.scroll-animate.visible .animate-title::after {
+    width: 80%;
+}
+
+/* Контейнер */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Секция истории */
+.history-section {
+    padding: 3rem 0;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    margin-bottom: 2rem;
+    border-radius: 12px;
+}
+
+.section-title {
+    color: #1a365d;
+    margin-bottom: 2rem;
+    text-align: center;
+    font-size: 2.2rem;
+    font-weight: 700;
+}
+
+.lead-text {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto 2rem;
+    color: #2c3e50;
+}
+
+.history-timeline-vertical {
+    position: relative;
+    padding: 2rem 0;
+}
+
+.history-timeline-vertical::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(180deg, #3498db, #2c3e50);
+    border-radius: 2px;
+}
+
+.history-period {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+    position: relative;
+    opacity: 0;
+    transform: translateX(-30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.history-period:nth-child(even) {
+    flex-direction: row-reverse;
+    transform: translateX(30px);
+}
+
+.history-period.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.period-year {
+    background: linear-gradient(135deg, #3498db, #2c3e50);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    font-weight: bold;
+    min-width: 150px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+    z-index: 2;
+}
+
+.period-content {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin: 0 2rem;
+    flex: 1;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.period-content:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+}
+
+.period-content h4 {
+    color: #2c5282;
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+}
+
+.period-content p {
+    color: #555;
+    line-height: 1.7;
+}
+
+.archive-quote {
+    background: linear-gradient(135deg, #e8f4fd 0%, #d4edda 100%);
+    border-left: 5px solid #3498db;
+    padding: 1.5rem 2rem;
+    margin-top: 2rem;
+    border-radius: 8px;
+    font-style: italic;
+    color: #2c3e50;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* Улучшенная хронология */
+.timeline-section {
+    padding: 3rem 0;
+    margin-bottom: 2rem;
+}
+
+.timeline-enhanced {
+    position: relative;
+    padding: 2rem 0;
+}
+
+.timeline-line {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(180deg, #3498db, #2c3e50);
+    border-radius: 2px;
+}
+
+.timeline-item-enhanced {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2.5rem;
+    position: relative;
+    opacity: 0;
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.timeline-item-enhanced.left {
+    justify-content: flex-end;
+    padding-right: 50%;
+    transform: translateX(-30px);
+}
+
+.timeline-item-enhanced.right {
+    justify-content: flex-start;
+    padding-left: 50%;
+    transform: translateX(30px);
+}
+
+.timeline-item-enhanced.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.timeline-dot {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 24px;
+    height: 24px;
+    background: white;
+    border: 4px solid #3498db;
+    border-radius: 50%;
+    z-index: 2;
+    transition: transform 0.3s ease;
+}
+
+.timeline-item-enhanced:hover .timeline-dot {
+    transform: translateX(-50%) scale(1.3);
+    background: #3498db;
+}
+
+.timeline-content {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    padding: 1.5rem;
+    border-radius: 12px;
+    max-width: 400px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin: 0 1.5rem;
+}
+
+.timeline-item-enhanced.left .timeline-content {
+    margin-right: 1.5rem;
+}
+
+.timeline-item-enhanced.right .timeline-content {
+    margin-left: 1.5rem;
+}
+
+.timeline-content:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+}
+
+.timeline-year {
+    display: inline-block;
+    background: linear-gradient(135deg, #3498db, #2c3e50);
+    color: white;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin-bottom: 0.75rem;
+}
+
+.timeline-content h4 {
+    color: #1a365d;
+    margin-bottom: 0.5rem;
+    font-size: 1.15rem;
+}
+
+.timeline-content p {
+    color: #555;
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+/* Словарь терминов */
+.glossary-section {
+    padding: 3rem 0;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    margin-bottom: 2rem;
+    border-radius: 12px;
+}
+
+.glossary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.glossary-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.glossary-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.glossary-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+}
+
+.glossary-card h4 {
+    color: #2c5282;
+    margin-bottom: 0.75rem;
+    font-size: 1.2rem;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 0.5rem;
+}
+
+.glossary-card p {
+    color: #555;
+    line-height: 1.7;
+    font-size: 0.95rem;
+}
+
+/* Библиография */
+.bibliography-section {
+    padding: 3rem 0;
+    background-color: #fff;
+    margin-bottom: 2rem;
+}
+
+.bibliography-content {
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.bibliography-category {
+    margin-bottom: 2rem;
+}
+
+.bibliography-category:last-child {
+    margin-bottom: 0;
+}
+
+.bibliography-category h3 {
+    color: #2c5282;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+    border-left: 4px solid #3498db;
+    padding-left: 1rem;
+}
+
+.bibliography-category ul {
+    list-style: none;
+    padding-left: 1rem;
+}
+
+.bibliography-category li {
+    margin-bottom: 0.75rem;
+    line-height: 1.7;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.bibliography-category li::before {
+    content: '📚';
+    position: absolute;
+    left: 0;
+    font-size: 0.9rem;
+}
+
+.bibliography-category a {
+    color: #3498db;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.bibliography-category a:hover {
+    color: #2c5282;
+    text-decoration: underline;
+}
+
+/* QR код */
+.bot-qr-section {
+    text-align: center;
+    padding: 3rem 0;
+    background: linear-gradient(135deg, #e8f4fd 0%, #f8f9fa 100%);
+    border-radius: 12px;
+    margin-bottom: 2rem;
+}
+
+.bot-qr-section h2 {
+    color: #1a365d;
+    margin-bottom: 0.5rem;
+}
+
+.bot-qr-section p {
+    color: #555;
+    margin-bottom: 1.5rem;
+}
+
+.qr-code {
+    max-width: 220px;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    transition: transform 0.3s ease;
+}
+
+.qr-code:hover {
+    transform: scale(1.05);
+}
+
+/* Презентация */
+.start-science-section {
+    margin-bottom: 2rem;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+/* Footer */
+footer {
+    background: #2c3e50;
+    color: #6c757d;
+    text-align: center;
+    padding: 1.5rem 0;
+    margin-top: 2rem;
+    font-size: 0.9rem;
+}
+
+.intro {
+    background: #f8f9fa;
+    padding: 2rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    border-left: 4px solid #3498db;
+}
+
+.forts {
+    margin-bottom: 2rem;
+    width: 100%;
+    max-width: 100%;
+}
+
+.main-title {
+    text-align: center;
+    width: 100%;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    color: #2c3e50;
+}
+
+.fort-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    width: 100%;
+}
+
+.fort-card {
+    background: #ffffff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid #eaeaea;
+    width: 100%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.fort-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+}
+
+.fort-card.full-width {
+    grid-column: 1 / -1;
+}
+
+.fort-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.fort-card ul {
+    margin-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.fort-card h3 {
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+}
+
+.map-section {
+    text-align: center;
+    background: #f8f9fa;
+    padding: 2rem;
+    border-radius: 8px;
+    border-left: 4px solid #3498db;
+}
+
+#mapButton {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+#mapButton:hover {
+    background: #2980b9;
+}
+
+.fort-link {
+    display: inline-block;
+    color: #3498db;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 1rem;
+    transition: color 0.3s;
+}
+
+.fort-link:hover {
+    color: #2980b9;
+    text-decoration: underline;
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    color: #3498db;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.back-link:hover {
+    color: #2980b9;
+    text-decoration: underline;
+}
+
+.fort-detail-content {
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid #eaeaea;
+    margin-bottom: 2rem;
+}
+
+.fort-detail-content img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin: 1rem 0;
+}
+
+.fort-detail-content h2 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 1.5rem;
+        padding: 0 0.5rem;
+    }
+    
+    main {
+        padding: 0 1rem;
+    }
+    
+    .fort-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Адаптация таймлайна для мобильных */
+    .timeline-line {
+        left: 20px !important;
+    }
+    
+    .timeline-item-enhanced {
+        justify-content: flex-start !important;
+        padding-left: 60px !important;
+        padding-right: 0 !important;
+    }
+    
+    .timeline-item-enhanced.left,
+    .timeline-item-enhanced.right {
+        padding-left: 60px !important;
+    }
+    
+    .timeline-dot {
+        left: 20px !important;
+    }
+    
+    .timeline-content {
+        max-width: 100% !important;
+        margin: 0 0 0 1rem !important;
+    }
+    
+    /* Адаптация истории */
+    .history-timeline-vertical::before {
+        left: 20px !important;
+    }
+    
+    .history-period,
+    .history-period:nth-child(even) {
+        flex-direction: row !important;
+        padding-left: 60px !important;
+    }
+    
+    .period-year {
+        position: absolute;
+        left: 0;
+        min-width: 100px;
+        font-size: 0.85rem;
+        padding: 0.5rem 1rem;
+    }
+    
+    .period-content {
+        margin: 0 0 0 1rem !important;
+        flex: 1;
+    }
+    
+    /* Адаптация словаря */
+    .glossary-grid {
+        grid-template-columns: 1fr !important;
+    }
+    
+    /* Уменьшение шрифтов */
+    .section-title {
+        font-size: 1.5rem !important;
+    }
+    
+    .history-section,
+    .timeline-section,
+    .glossary-section,
+    .bibliography-section {
+        padding: 2rem 0 !important;
+    }
+}
+
+/* Фотогалерея */
+.photo-gallery-section {
+    padding: 3rem 0;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    margin-bottom: 2rem;
+    border-radius: 12px;
+}
+
+.photo-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    aspect-ratio: 4/3;
+    border: 4px solid white;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gallery-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.1);
+}
+
+.gallery-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0,0,0,0.75);
+    color: white;
+    padding: 12px;
+    font-size: 0.9rem;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+    text-align: center;
+}
+
+.gallery-item:hover .gallery-caption {
+    transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+    .photo-gallery-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Дополнительные стили */
+.history-section ul li,
+.bibliography-section ul li {
+    margin-bottom: 0.5rem;
+}
+
+.timeline-section {
+    overflow-x: hidden;
+}
